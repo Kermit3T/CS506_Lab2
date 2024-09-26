@@ -1,0 +1,5 @@
+# Ignore the entire virtual environment directory
+venv/
+
+# Ignore a specific image file
+favorite_image.png
