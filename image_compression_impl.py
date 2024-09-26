@@ -4,11 +4,25 @@ from PIL import Image
 
 # Function to load and preprocess the image
 def load_image(image_path):
-    raise NotImplementedError('You need to implement this function')
+    image = Image.open(image_path)
+
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    image_np = np.array(image)
+    
+    return image_np
 
 # Function to perform KMeans clustering for image quantization
 def image_compression(image_np, n_colors):
-    raise NotImplementedError('You need to implement this function')
+    pixels = image_np.reshape(-1, 3)
+    
+    kmeans = KMeans(n_clusters=n_colors, random_state=42)
+    kmeans.fit(pixels)
+    
+    compressed_pixels = kmeans.cluster_centers_[kmeans.labels_]
+    compressed_image = compressed_pixels.reshape(image_np.shape).astype(np.uint8)
+    
+    return compressed_image
 
 # Function to concatenate and save the original and quantized images side by side
 def save_result(original_image_np, quantized_image_np, output_path):
